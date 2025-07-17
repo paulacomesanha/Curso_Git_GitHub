@@ -2,3 +2,5 @@
 Learning Git
 ## Goal
 Learn Git and Github
+## Technologies
+**Git**, **VS Code**, **Python**
