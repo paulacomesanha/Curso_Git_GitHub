@@ -6,4 +6,6 @@ Learn Git and Github
 **Git**, **VS Code**, **Python**
 ## Personal notes
 *Nothing at the moment.*
-Última actualización
+Última actualización.
+
+*NOTA: práctica de Git completa*
