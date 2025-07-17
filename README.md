@@ -8,4 +8,6 @@ Learn Git and Github
 *Nothing at the moment.*
 Última actualización.
 
-*NOTA: práctica de Git completa*
+Aprendido: diferencia entre `staged`y `unstaged`
+
+*NOTA: práctica de Git completada correctamente*
