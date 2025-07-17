@@ -4,3 +4,5 @@ Learning Git
 Learn Git and Github
 ## Technologies
 **Git**, **VS Code**, **Python**
+## Personal notes
+*Nothing at the moment.*
