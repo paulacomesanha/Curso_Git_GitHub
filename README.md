@@ -210,12 +210,119 @@ Y también
 `cat README.md`
 Verás que se borró la línea "- Aprendiendo a usar Git".
 
-## 📌 ¿Qué aprendiste aquí?
+### 📌 ¿Qué aprendiste aquí?
 |Acción|Comando|
 |---:|:---|
 |Ver cambios no añadidos|`git diff`|
-|Ver cambios no añadidos|`git diff --staged`|
+|Ver cambios ya añadidos|`git diff --staged`|
 |Quitar archivo del staging|`git restore --staged <archivo>`|
 |Deshacer cambios locales|`git restore <archivo>`|
 
 ## Práctica guiada 3: reset, revert y rm
+### `git reset`: reescribe el historial reciente
+#### Paso 1: crea un archivo nuevo
+```
+echo "Este archivo será reseteado" > nota.txt
+git add nota.txt
+git commit -m "Añade nota.txt"
+```
+
+#### Paso 2: elimina el último commit (pero conserva los cambios en archivos)
+`git reset --soft HEAD~1`
+Esto borra el commit pero mantiene los cambios de staging. Si haces `git status`, veras `nota.txt`en verde.
+
+#### Paso 3: ahora haz un reset total
+`hot reset --hard HEAD`
+Esto elimina los cambios y el commit, y vuelve al estado anterior completamente. **Cuidado con `--hard`: elimina lo que no está confirmado**
+
+### `git revert`: deshace un commit sin borrar historial
+#### Paso 1: añade algo nuevo
+```
+echo "Cambio que vamos a revertir" >> README.md
+git add README.md
+git commit -m "Cambio de prueba para revertir"
+```
+
+#### Paso 2: revierte ese commit
+Primero, identifica el hash corto del commit:
+`git log --oneline`
+Luego, usa:
+`git revert <hash del commit>`
+Esto crea un nuevo commit inverso. Es seguro para proyectos compartidos.
+
+### `git rm`: eliminar archivos controlados por Git
+#### Paso 1: crea otro archivo
+```
+echo "Archivo temporal" > temporal.txt
+git add temporal.txt
+git commit -m "Añade archivo temporal"
+```
+
+#### Paso 2: elimina ese archivo con Git
+```
+git rm temporal.txt
+git commit -m "Elimina archivo temporal"
+```
+Esto borra el archivo del disco y del historial futuro
+
+### 📌 ¿Qué aprendiste aquí?
+|Acción|Comando|
+|---:|:---|
+|Borra el último commit, pero mantiene los cambios|`git reset --soft HEAD~1`|
+|Revierte todo: historial y archivos (**destructivo**)|`git reset --hard HEAD`|
+|Deshace el commit creando uno nuevo inverso|`git revert <hash>`|
+|Elimina un archivo del disco y del control de versiones|`git rm <archivo>`|
+
+# Módulo 3: GitHub y trabajo remoto
+## Objetivo
+Aprender a conectar un repositorio local de Github, subir tus cambios y traer actualizaciones del repositorio remoto. También entenderemos cómo colaborar con otras personas.
+
+## ¿Qué es GitHub?
+GitHub es una plataforma en la nube que te permite:
+- Almacenar repositorios Git online.
+- Compartir proyectos y colaborar.
+- Crear ramas, pull request, revisar código y  más.
+
+## Configuración previa
+1. Crear cuenta en [GitHub][https://github.com/].
+2. Configurar acceso SSH (opcional pero recomendado): si quieres evitar escribir tu usuario y contraseña todo el tiempo:
+    `ssh-keygen -t ed25519 -C "tu@email.com"`
+    Luego copia tu clave con:
+    `cat ~/.ssh/id_ed25519.pub`
+    Y pégala en GitHub -> Settings -> SSH and GPG Keys -> New SSH Key.
+
+## Crear repositorio remoto en GitHub
+1. Ve a [GitHub][https://github.com/].
+2. Clic en **New repository**.
+3. Asigna un nombre.
+4. Deja desmarcado "Initialize with README" (ya lo tienes localmente).
+5. Clic en **Create repository**.
+
+## Conectar tu repo local con GitHub
+Desde tu proyecto local (ya inicializado) y con SSH, sino utuilizar link de HTTPS:
+`git remoto add origin git@github.com:TU_USUARIO/NOMBRE_REPOSITORIO_GITHUB`
+Verifica que se añadió correctamente:
+`git remote -v`
+
+## Subir tu proyectoi por primera vez
+`git push -u origin <rama principal>`
+Con esto, tu historial local se sube al repositorio de GitHub.
+
+## Clonar un proyecto existente
+Si el proyecto ya está en GitHub y quieres copiarlo en otro equipo:
+`git clone git@github.com:usuario/nombre-repo.git`
+Esto crea una copia exacta con todo el historial.
+
+## Traer cambios desde GitHub
+Para sincronizar con el repositorio remoto:
+`git pull`
+También puedes separar en:
+```
+git fetch # Trae cambios, pero no los mez la aún
+git merge # Integra los cambios en tu rama actual
+```
+## 📌 Flujo típico con GitHub
+1. Haces cambios localmente
+2. `git add`+ `git commit`
+3. `git push`-> subes al remoto
+4. `git pull`-> bajas cambios si otro colaborador ha subido algo
