@@ -10,7 +10,7 @@ Git es un sistema de control de versiones distribuido. Esto significa que permit
 📌 Piensa en Git como una "máquina del tiempo" para tu código.
 
 ## ¿Por qué usar Git?
-- Copntrolar qué cambias, cuándo y por qué.
+- Controlar qué cambias, cuándo y por qué.
 - Puedes experimentar sin miedo a romper nada.
 - Facilita el trabajo en quipo sin conflictos.
 - Es esencial en el mundo profesional del desarrollo y la ingeniería.
