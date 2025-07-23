@@ -48,7 +48,7 @@ Verifica la configuración:
 
 `git config --list`
 
-##Conceptos clave
+## Conceptos clave
 |Término|Qué significa|
 |---:|:---|
 |Repositorio|proyecto con control de versional. Puede ser local o remoto|
