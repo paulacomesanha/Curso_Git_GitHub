@@ -141,7 +141,7 @@ Verás un mensaje como:
 
 `Initialized empty Git repository in...`
 
-### Paso 3: Crea un archivo nuevo
+### Paso 3: crea un archivo nuevo
 Puedes hacerlo desde un editor o directamente con un comando:
 
 `echo "# Mi primer proyecto Git" > README.md`
@@ -347,15 +347,27 @@ GitHub es una plataforma en la nube que te permite:
 
 ## Configuración previa
 1. Crear cuenta en [GitHub][https://github.com/].
-2. Configurar acceso SSH (opcional pero recomendado): si quieres evitar escribir tu usuario y contraseña todo el tiempo:
+2. Configurar acceso SSH (opcional pero recomendado):
 
-    `ssh-keygen -t ed25519 -C "tu@email.com"`
+    1. Abre Git Bash
+    2. `ssh-keygen `
+    3. Completar directorio (enter) y contraseña (no se ve lo que escribes).
+    4. Luego copia tu clave con:
 
-    Luego copia tu clave con:
+       ```
+       ls
+       cat ~/.ssh/nombre-archivo.pub
+       ```
 
-    `cat ~/.ssh/id_ed25519.pub`
+       Esto muestra la ssh key pública, la privada (la que no es *.pub) no se debe de compartir nunca.
+    5. Copiar y pegar la key pública en GitHub\Settings (del perfil)\SSH and GPG keys\New SSH key y ponerle un nombre "Mi portátil".
+    6. En Git Bash poner:
 
-    Y pégala en GitHub -> Settings -> SSH and GPG Keys -> New SSH Key.
+        ```
+        eval "$(ssh-agent)"
+        ssh-add
+        ```
+    7. Poner contraseña de la SSH key.
 
 ## Crear repositorio remoto en GitHub
 1. Ve a [GitHub][https://github.com/].
@@ -367,13 +379,13 @@ GitHub es una plataforma en la nube que te permite:
 ## Conectar tu repo local con GitHub
 Desde tu proyecto local (ya inicializado) y con SSH, sino utuilizar link de HTTPS:
 
-`git remoto add origin git@github.com:TU_USUARIO/NOMBRE_REPOSITORIO_GITHUB`
+`git remote add origin git@github.com:TU_USUARIO/NOMBRE_REPOSITORIO_GITHUB`
 
 Verifica que se añadió correctamente:
 
 `git remote -v`
 
-## Subir tu proyectoi por primera vez
+## Subir tu proyecto por primera vez
 `git push -u origin <rama principal>`
 
 Con esto, tu historial local se sube al repositorio de GitHub.
@@ -687,3 +699,95 @@ Tu rama `main` local aún no tiene ese cambio. Actualízala:
 git switch amin
 git pull origin main
 ```
+
+# Módulo 5: buenas prácticas y herramientas útiles
+## Objetivo
+Aprender a ignorar archivos innecesarios, guardar cambios temporales, crear versiones con etiquetas (tags), limpiar o corregir el historial de commits y usar herramientas visuales para entender el historial.
+
+## `.gitignore`: ignorar archivos
+Git rastrea todos los archivos a menos que tú le digas que no creando un archivo `.gitignore`.
+
+```
+touch .gitignore
+```
+
+Si utilizas en cmd de Windows: `type NUL > .gitignore`
+
+Dentro de este archivo puedes poner nombres específicos de los archivos que quieres ignorar o tipos de archivos completos con *.extension. Ejemplo de contenido:
+
+```
+*.log
+__pycache__/
+*.env
+.DS_Store
+```
+
+Esto evita que archivos temporales o confidenciales se suban por error
+
+📌 GitHub ofrece plantillas para cada lenguaje: https://github.com/github/gitignore 
+
+## `git stash`: guardar cambios temporales
+Imagina que estás en mitad de algo, pero necesitas cambiar de rama:
+
+```
+git stash
+```
+
+Esto guarda tus cambios no confirmados y deja el repositorio limpio. Para recuperarlos:
+
+```
+git stash apply # vuelve a aplicar el último stash
+```
+
+Ver lista de stashes guardados:
+
+```
+git stash list
+```
+
+## `git tag`: crear versiones del proyecto
+Los **tags** se usan para mrcar versiones estables como `v1.0`, `v2.0-beta`, etc.
+
+```
+git tag v1.0
+git push origin v1.0
+```
+
+También puedes añadir anotaciones:
+
+```
+git tag -a v1.1 -m "Primera versión estable"
+```
+
+## Limpieza y corrección del historial
+### `git commit --amend`: corregir el último commit
+```
+git commit --amend -m "Mensaje corregido"
+```
+
+Es útil si olvidaste añadir un archivo o quieres reescribir el mensaje.
+
+### `git rebase -i`: reescritura interactiva
+Solo usar si estás trabajando en solitario o en ramas aún no compartidas. Pemrite unir commits, cambiar su orden y editar mensajes:
+
+```
+git rebase -i HEAD~3
+```
+
+## Herramientas útiles
+ - GitHub Desktop: interfaz gráfica oficial para Git en Windows y Mac. Ideal si estás empezando o quieres revisar visualmente los cambios.
+ - Gitk
+ - GitKraken
+ - SourceTree
+ - GitLens (extensión de VS Code)
+
+## Buenas prácticas
+- Escribe mensajes de commit claros y en tiempo presente:
+
+    ✅ `Corrige error en formulario`, ❌ `Arreglado el bug de...`
+
+- Usa ramas con nombres descriptivos:
+
+    `feature/login`, `bugfix/navbar`, `refactor/db-layer`
+
+- Antes de hacer `push`de muchos commits caóticos -> `git rebase -i`para ordenar
