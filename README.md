@@ -603,7 +603,7 @@ git merge feature-bienvenida
 Git te avisará de un conflicto!!
 
 ### Paso 6: resuelve el conflicto
-Abre README.md. Verás algo así:
+Abre `README.md`. Verás algo así:
 
 ```
 <<<<<<< HEAD
@@ -636,4 +636,54 @@ git branch -d featura-bienvenida
 ### Paso 8: subo todo a GitHub
 ```
 git push
+```
+
+## Prácxtica guiada 2: crear Pull Request (PR) en GitHub
+### Paso 1: crea una nueva rama de funcionalidad
+Desde tu terminal en el proyecto:
+
+```
+git switch -c feature-footer
+```
+
+### Paso 2: haz un cambio
+Añade una línea al final de `README.md`:
+
+```
+echo "- Este proyecto incluirá un pie de página (footer)" >> README.md
+```
+
+Confirma los cambios:
+
+```
+git add REAMDE.md
+git commit -m "Añade línea sobre el footer"
+```
+
+### Paso 3: sube la rama a GitHub
+```
+git push -u origin feature-footer
+```
+
+### Paso 4: crea el Pull Request en GitHub
+1. Ve al repositorio en GitHub
+2. Verás un aviso: "**Compare & pull request**" -> haz clic
+3. En la nueva página:
+    - **Base**: debe ser `main`
+    - **Compare**: tu rama `featuire-footer`
+4. Añade un título y una descripción breve
+5. Haz clic en "**Create pull request**" (si no aparece automáticamente el botón, puedes ir a la pestaña "Pull Requests" y crear uno manualmente)
+
+### Paso 5: revisa y fusiona el PR
+1. Puedes dejar comentarios o revisar los cambios (GitHub los muestra línea a línea).
+2. Haz clic en "**Merge pull request**".
+3. Luego, clic en "**Confirm merge**".
+4. Finalmente, puedes eliminar la rama en GitHub ("**Delete branch**").
+
+### Paso 6: baja los cambios a tu equipo local
+Tu rama `main` local aún no tiene ese cambio. Actualízala:
+
+```
+git switch amin
+git pull origin main
 ```
