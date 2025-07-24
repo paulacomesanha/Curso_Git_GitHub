@@ -543,3 +543,97 @@ main ──────────────────●──────
 nombre-de-la-rama        ●────●────●──┘
 ```
 
+## Práctica guiada 1: ramas, merge y resolución de conflictos
+### Paso 1: abre tu proyecto
+```
+cd /c/Users/ruta/git-practica-1
+```
+
+Verifica que estás en la rama principal:
+
+```
+git branch
+```
+
+Si no estás en `main`, cambia con:
+
+```
+git switch main
+```
+
+### Paso 2: crea una nueva rama
+```
+git switch -c feature-bienvenida
+```
+
+Esto crea la rama `feature-bienvenida`y te mueve a ella.
+
+### Paso 3: modifica el archivo `README.md`
+Añade una línea:
+
+```
+echo "- Bienvenido a este proyecto proyecto" >> README.md
+```
+
+Luego guarda y confirma:
+
+```
+git add README.md
+git commit -m "Añade mensaje de bienvenida"
+```
+
+### Paso 4: vuelve a `main`
+```
+git switch main
+```
+
+Ahora crea un cambio diferente en la misma parte del archivo para provocar un conflicto:
+
+```
+echo "- Este proyecto es sobre Git" >> README.md
+git add README.md
+git commit -m "Añade descripción general en main"
+```
+
+### Paso 5: intenta hacer `merge`
+```
+git merge feature-bienvenida
+```
+
+Git te avisará de un conflicto!!
+
+### Paso 6: resuelve el conflicto
+Abre README.md. Verás algo así:
+
+```
+<<<<<<< HEAD
+- Este proyecto es sobre Git
+=======
+- Bienvenida a este proyecto
+>>>>>>> feature-bienvenida
+```
+
+Elige una de las dos líneas, o combina ambas. Ejemplo:
+
+```
+Bienvenida a este proyecto sobre Git
+```
+
+Luego:
+
+```
+git add README.md
+git commit -m "Resuelve conflicto entre main y feature-bienvenida"
+```
+
+### Paso 7: elimina la rama (opcional)
+Una vez fusionada, puedes borrar la rama local para mayor limpieza:
+
+```
+git branch -d featura-bienvenida
+```
+
+### Paso 8: subo todo a GitHub
+```
+git push
+```
