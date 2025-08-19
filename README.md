@@ -650,7 +650,7 @@ git branch -d featura-bienvenida
 git push
 ```
 
-## Prácxtica guiada 2: crear Pull Request (PR) en GitHub
+## Práctica guiada 2: crear Pull Request (PR) en GitHub
 ### Paso 1: crea una nueva rama de funcionalidad
 Desde tu terminal en el proyecto:
 
@@ -699,6 +699,8 @@ Tu rama `main` local aún no tiene ese cambio. Actualízala:
 git switch amin
 git pull origin main
 ```
+
+---
 
 # Módulo 5: buenas prácticas y herramientas útiles
 ## Objetivo
@@ -791,3 +793,112 @@ git rebase -i HEAD~3
     `feature/login`, `bugfix/navbar`, `refactor/db-layer`
 
 - Antes de hacer `push`de muchos commits caóticos -> `git rebase -i`para ordenar
+
+## Práctica guiada 1: `.gitignore`, `stash`, `tag`, `commit --amend`
+Primero asegúrate de estar en tu repositorio
+
+```
+cd ruta/del/proyecto/git-practica-1
+```
+
+### Ignorar archivos con `.gitignore`
+
+Crea un archivo `.gitignore`
+
+```
+touch .gitignore
+```
+
+Añade contenido con:
+
+```
+nano .gitignore # o usa VS Code, Notepad, etc.
+```
+
+Y añade líneas como estas:
+
+```
+*.log
+*.env
+__pycache__/
+.DS_Store
+```
+
+Guarda y haz commit:
+
+```
+git add .gitignore
+git commit -m "Añade archivo .gitignore"
+```
+
+Comprueba que los archvios ignorados no se rastrean:
+
+```
+echo "temporal" > archivos.log
+git status
+```
+
+Veras que no aparece en la lista de archivos modificados.
+
+### Guardar cambios temporales con `git stash`
+Haz un cambio sin confirmarlo:
+
+```
+echo "Cambio que quiero guardar temporalmente" >> README.md
+```
+
+Comprueba que hay cambios pendientes:
+
+```
+git status
+```
+
+Guarda el cambio en el stash:
+
+```
+git stash
+```
+
+Ahora tu árbol está limpio otra vez. Para verificar y recuperar el stash:
+
+```
+git stash list
+git stash apply
+```
+
+Vuelves a tener los cambios en tu archivo.
+
+### Crear una versión del proyecto con `git tag`
+Crea un tag anotado:
+
+```
+git tag -a v1.0 -m "Primera versión estable"
+```
+
+Verifica los tags:
+
+```
+git tag
+```
+
+Sube el tag a GitHub:
+
+```
+git push origin v1.0
+```
+
+### Corregir el último commit con `--amend`
+Supón que te olvidaste de añadir un archivo. Entonces, crea un archivo nuevo:
+
+```
+echo "Archivo importante" > importante.txt
+git add importante.txt
+```
+
+En vez de hacer otro commit, modifica el anterior:
+
+```
+git commit --amend
+```
+
+Se abrirá el editor para que edutes el mensaje, o simplemente lo guardas.
