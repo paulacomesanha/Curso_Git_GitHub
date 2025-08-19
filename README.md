@@ -926,8 +926,87 @@ En vez de hacer otro commit, modifica el anterior:
 git commit --amend
 ```
 
-Se abrirá el editor para que edutes el mensaje, o simplemente lo guardas.
+Se abrirá el editor para que edites el mensaje, o simplemente lo guardes.
 
 ---
 
 # Módulo 6: flujos de trabajo avanzados en Git
+## Objetivo
+Aprender diferentes estrategias de colaboración en Git para que el desarrollo sea:
+- Ordenado
+- Escalable
+- Sin interferencias entre ramas
+- Controlado durante despliegues y versiones
+
+## ¿Qué es un flujo de trabajo (workflow)?
+Es un conjunto de reglas sobre cómo se usan las ramas, cuándo se hace merge y qué nombre deben tener. Todos los comandos son los mismos qeu ya conoces, pero organizados de una forma estructurada y profesional.
+
+## Git Flow (el más popular en proyectos medianos-grandes)
+### Estructura base
+- `main`: versiones estables desplegadas (producción)
+- `develop`: rama de integración continua
+- `feature/*`: nuevas funcionalidades
+- `release/*`: preparación de versiones
+- `hotfix/*`: arreglos urgentes sobre producción
+
+### Ejemplo de ciclo completo
+1. Crear una funcionalidad:
+
+    ```
+    git checkout develop
+    git switch -c feature/login
+    ```
+
+2. Terminas y haces merge a `develop`:
+
+    ```
+    git switch develop
+    git merge feature/login
+    git branch -d feature/login
+    ```
+
+3. Crear una release:
+
+    ```
+    git switch -c release/v1.0
+    ```
+
+4. Cuando está aprobada:
+
+    ```
+    git switch main
+    git merge release/v1.0
+    git tag -a v1.0 -m "Lanzamiento 1.0"
+    git switch develop
+    git merge release/v1.0
+    git branch -d release/v1.0
+    ```
+
+5. Si hay un error en producción:
+
+    ```
+    git switch -c hotfix/v1.0.1 main
+    # Solucionas
+    git commit -m "Corrige error crítico"
+    git switch main
+    git merge hotfix/v1.0.1
+    git tag -a v1.0.1 -m "Hotfix"
+    git switch develop
+    git merge hotfix/v1.0.1
+    git branch -d hotfix/v1.0.1
+    ```
+
+## Trunk-based Development (muy usado en DevOps)
+- Solo hay una rama principal (`main`)
+- Todos trabajan directamemnte o con ramas muy cortas y de vida breve
+- Uso intensivo de integración continua (CI)
+
+Ideal para equipos pequeños, ciclos rápidos o despliegue continuo.
+
+## Fork + Pull Request (comunidad open source)
+- No tienes acceso directo al repo
+- Haces un fork (copia) del repositorio
+- Trabajas en tu copia -> creas una rama
+- Subes cambios y haces un Pull Request hacia el repo original
+
+Usado en proyectos colaborativos como los de GitHub público, o código abierto.
