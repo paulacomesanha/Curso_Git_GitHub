@@ -784,15 +784,40 @@ git rebase -i HEAD~3
  - GitLens (extensión de VS Code)
 
 ## Buenas prácticas
-- Escribe mensajes de commit claros y en tiempo presente:
+### Limpieza y organización del repositorio
+- Usar un buen `.gitignore` para evitar subir archivos innecesarios (logs, binarios, .env, etc.).
+- No subir dependencias innecesarias como `node_modules`, `venv`, `build`, etc.
+- Estructura de carpetas clara para mejorar la comprensión del proyecto por parte de otros usuarios.
+- Mantener el repositorio actualizado para evitar confusión entre versiones locales y remotas.
 
-    ✅ `Corrige error en formulario`, ❌ `Arreglado el bug de...`
+### Mensajes de commit claros y consistentes
+- Usa verbos en imperativo -> ✅ `Corrige validación de email` ❌ `Corregido el error del email`
+- Sé descriptivo pero conciso -> ✅ `Añade control de errores en login` ❌ `login arreglado`
+- Agrupa cambios relacionados -> ✅ Un commit = un propósito ❌ No mezcles refactor + bugfix
+- Usa emojios (opcional) para clasificar -> `🔧 Refactoriza función`
 
-- Usa ramas con nombres descriptivos:
+### Buen manejo de ramas
+- Usa ramas con nombres descriptivos -> `feature/login`, `bugfix/navbar`, `refactor/db-layer`, `release/v1.2`
+- No trabajar directamente en `main`-> Usa ramas para cada nueva funcionalidad o correción
+- Borrar ramas locales cuando termines -> Mantiene tu entorno limpio
+- Evita ramas largas sin merge -> Haz merge frecuentemente a `develop` para evitar conflictos enormes
 
-    `feature/login`, `bugfix/navbar`, `refactor/db-layer`
+### Buenas prácticas al hacer mege o pull request
+- Revisa antes de hacer merge -> Usa `git diff` o GitHub PRs para verificar lo que estás integrando
+- No mezcles muchas funcionalidades en una sola rama -> Mejor ramas pequeñas, fáciles de revisar
+- Resuelve conflictos tú mismo -> No dejes código conflictivo en el repositorio
+- Siempre actualiza tu rama antes de hacer PR -> Usa `git pull --rebase origin main` si trabajas sobre `main`
 
-- Antes de hacer `push`de muchos commits caóticos -> `git rebase -i`para ordenar
+### Versionado y control de releases
+- Usar `git tag` para marcar versiones -> Permite retroceder a versiones estables fácilmente
+- Etiquetas semánticas (`v1.0.0`) -> Mayor claridad en el control de versiones
+- Acompañar versiones con `CHANGELOG.md` -> Comunica qué ha cambiado entre una versión y otra
+
+### Buenas herramientas complementarias
+- GitHub Desktop -> Interfaz gráfica oficial para Git (ideal para principiantes)
+- GitLens (VS Code) -> Ver historial de cada línea, autores y comparar versiones
+- GitKraken / SourceTree -> Visualizar ramas y merges fácilmente
+- Husky + lint-staged -> Ejecutar test o linters antes de cada commit automáticamente
 
 ## Práctica guiada 1: `.gitignore`, `stash`, `tag`, `commit --amend`
 Primero asegúrate de estar en tu repositorio
@@ -902,3 +927,7 @@ git commit --amend
 ```
 
 Se abrirá el editor para que edutes el mensaje, o simplemente lo guardas.
+
+---
+
+# Módulo 6: flujos de trabajo avanzados en Git
